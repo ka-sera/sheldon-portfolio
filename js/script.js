@@ -127,7 +127,7 @@ function loadCertificates() {
     const certificates = [
         {
             name: 'Bunimation Whiteboard Animation Course - Buni Sanara Program',
-            image: ''
+            image: 'images/bunimation_certificate.jpg'
         }
     ];
 
