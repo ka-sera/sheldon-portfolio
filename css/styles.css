@@ -286,7 +286,7 @@ section {
     padding: 80px 20px;
 }
 
-section:nth-child(even) {
+section:nth-of-type(even) {
     background-color: var(--accent-color);
 }
 
