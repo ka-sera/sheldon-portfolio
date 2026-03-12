@@ -23,7 +23,7 @@ Your professional portfolio website is ready! Here's what's been set up:
 ### Features Included
 ✅ Teal green professional design theme
 ✅ Mobile responsive (works on all devices)
-✅ 7 sections (Home, About, Skills, Projects, Certificates, Gallery, Contact)
+✅ 8 sections (Home, About, Skills, Coursework, Projects, Certificates, Gallery, Contact)
 ✅ Smooth animations and transitions
 ✅ Contact information updated with your details
 ✅ Navigation with smooth scrolling

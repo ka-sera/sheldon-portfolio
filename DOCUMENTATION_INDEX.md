@@ -111,7 +111,7 @@ These details have been added to your portfolio:
 ✅ Teal green professional theme
 ✅ Mobile responsive design
 ✅ Smooth animations and transitions
-✅ 7 sections: Home, About, Skills, Projects, Certificates, Gallery, Contact
+✅ 8 sections: Home, About, Skills, Coursework, Projects, Certificates, Gallery, Contact
 ✅ Contact form (ready for email integration)
 ✅ Navigation with smooth scrolling
 ✅ Project showcase cards

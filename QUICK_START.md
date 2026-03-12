@@ -221,7 +221,7 @@ http-server -p 9000
 
 ### Navigation Bar
 - Logo "SK"
-- Menu items: Home, About, Skills, Projects, Certificates, Gallery, Contact
+- Menu items: Home, About, Skills, Coursework, Projects, Certificates, Gallery, Contact
 - Responsive hamburger menu on mobile
 
 ### About Section

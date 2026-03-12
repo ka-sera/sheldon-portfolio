@@ -12,7 +12,7 @@ This portfolio website showcases Sheldon Kasera's skills, projects, certificates
 ✅ **Fully Responsive**: Mobile, tablet, and desktop optimized  
 ✅ **Smooth Animations**: CSS transitions and scroll effects  
 ✅ **Professional Typography**: Easy to read and aesthetically pleasing  
-✅ **Multiple Sections**: Home, About, Skills, Projects, Certificates, Gallery, Contact  
+✅ **Multiple Sections**: Home, About, Skills, Coursework, Projects, Certificates, Gallery, Contact  
 ✅ **Email Integration**: Contact form ready for EmailJS integration  
 ✅ **Fast Loading**: Optimized for performance  
 ✅ **Accessible**: Semantic HTML and proper contrast ratios  
