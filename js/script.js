@@ -49,6 +49,41 @@ const defaultProjects = [
     }
 ];
 
+function getGithubRepoFromUrl(repoUrl) {
+    if (!repoUrl) return null;
+
+    try {
+        const url = new URL(repoUrl);
+        if (url.hostname !== 'github.com') return null;
+
+        const parts = url.pathname.replace(/^\/|\/$/g, '').split('/');
+        if (parts.length < 2) return null;
+
+        const owner = parts[0];
+        const repo = parts[1];
+        if (!owner || !repo) return null;
+
+        return { owner, repo };
+    } catch {
+        return null;
+    }
+}
+
+function getGithubOpenGraphImageUrl(repoUrl) {
+    const repo = getGithubRepoFromUrl(repoUrl);
+    if (!repo) return null;
+
+    // GitHub-hosted preview image (works well for portfolio cards without local screenshots).
+    return `https://opengraph.githubassets.com/1/${repo.owner}/${repo.repo}`;
+}
+
+function getProjectImageUrl(project) {
+    if (!project) return null;
+    if (project.image) return project.image;
+
+    return getGithubOpenGraphImageUrl(project.github);
+}
+
 // ===========================
 // LOAD PROJECTS
 // ===========================
@@ -58,13 +93,14 @@ function loadProjects() {
     projectsGrid.innerHTML = '';
 
     defaultProjects.forEach(project => {
+        const imageUrl = getProjectImageUrl(project);
         const projectCard = document.createElement('div');
         projectCard.className = 'project-card';
         projectCard.innerHTML = `
             <div class="project-image">
-                ${project.image && project.image.includes('.') ? 
-                    `<img src="${project.image}" alt="${project.title}">` :
-                    '<span>📁 Project Image</span>'
+                ${imageUrl ?
+                    `<img src="${imageUrl}" alt="${project.title}" loading="lazy" onerror="this.remove(); this.parentElement.innerHTML='<span>📁 Project</span>';">` :
+                    '<span>📁 Project</span>'
                 }
             </div>
             <div class="project-content">
@@ -91,7 +127,7 @@ function loadCertificates() {
     const certificates = [
         {
             name: 'Bunimation Whiteboard Animation Course - Buni Sanara Program',
-            image: 'certificates/bunimation_certificate.jpg'
+            image: ''
         }
     ];
 
@@ -101,9 +137,10 @@ function loadCertificates() {
         certificates.forEach(cert => {
             const certCard = document.createElement('div');
             certCard.className = 'certificate-card';
+            const imageUrl = cert.image || 'images/certificate-placeholder.svg';
             certCard.innerHTML = `
                 <div class="certificate-image">
-                    <img src="${cert.image}" alt="${cert.name}">
+                    <img src="${imageUrl}" alt="${cert.name}" loading="lazy" onerror="this.remove(); this.parentElement.innerHTML='<span>🏆</span>';">
                 </div>
                 <div class="certificate-name">${cert.name}</div>
             `;
