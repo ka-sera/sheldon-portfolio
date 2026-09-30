@@ -149,18 +149,32 @@ function loadCertificates() {
     }
 }
 
+```js
 // ===========================
 // LOAD GALLERY
 // ===========================
-
 
 function loadGallery() {
     const galleryGrid = document.getElementById('galleryGrid');
     galleryGrid.innerHTML = '';
 
+    // Only these 11 photos will appear on the website.
+    // Other photos remain safely stored in the GitHub images folder.
     const gallery = [
         {
             src: 'images/_JAK0094 - Copy - Copy.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20231118-WA0161 - Copy.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20240330-WA0036.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20240617-WA0061.jpg',
             alt: 'Sheldon Kasera'
         },
         {
@@ -198,9 +212,9 @@ function loadGallery() {
         galleryItem.className = 'gallery-item';
 
         galleryItem.innerHTML = `
-            <img 
-                src="${image.src}" 
-                alt="${image.alt}" 
+            <img
+                src="${image.src}"
+                alt="${image.alt}"
                 loading="lazy"
                 onerror="this.parentElement.style.display='none';"
             >
@@ -209,6 +223,7 @@ function loadGallery() {
         galleryGrid.appendChild(galleryItem);
     });
 }
+```
 
 
 
