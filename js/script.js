@@ -212,75 +212,120 @@ function loadProjects() {
 }
 
 
-// ======================================================
-// CERTIFICATES
-// ======================================================
 
+
+// ===========================
+// LOAD CERTIFICATES
+// ===========================
 
 function loadCertificates() {
-
-    const certificatesGrid =
-        document.getElementById('certificatesGrid');
-
-    if (!certificatesGrid) {
-        console.warn('certificatesGrid not found.');
-        return;
-    }
-
+    const certificatesGrid = document.getElementById('certificatesGrid');
     certificatesGrid.innerHTML = '';
 
     const certificates = [
-
         {
             name: 'Bunimation Whiteboard Animation Course - Buni Sanara Program',
             image: 'images/bunimation_certificate.jpg'
         },
-
         {
-            name: 'ALX AICE AI Career Essentials Certificate',
+            name: 'ALX AI Career Essentials',
             image: 'images/73-alx-aice-ai-career-essentials-certificate-sheldon-kasera.png'
         },
-
         {
-            name: 'ALX Virtual Assistant Certificate',
+            name: 'Virtual Assistant Certificate',
             image: 'images/72-virtual-assistant-certificate-sheldon-kasera.png'
         }
-
     ];
 
-    certificates.forEach(certificate => {
+    certificates.forEach(cert => {
+        const certCard = document.createElement('div');
+        certCard.className = 'certificate-card';
 
-        const certificateCard =
-            document.createElement('div');
-
-        certificateCard.className =
-            'certificate-card';
-
-        certificateCard.innerHTML = `
-
+        certCard.innerHTML = `
             <div class="certificate-image">
-
-                <img
-                    src="${certificate.image}"
-                    alt="${certificate.name}"
+                <img 
+                    src="${cert.image}" 
+                    alt="${cert.name}" 
                     loading="lazy"
-                    onerror="
-                        this.style.display='none';
-                        this.parentElement.innerHTML='<span>🏆</span>';
-                    "
                 >
-
             </div>
 
             <div class="certificate-name">
-                ${certificate.name}
+                ${cert.name}
             </div>
-
         `;
 
-        certificatesGrid.appendChild(
-            certificateCard
-        );
+        // Open certificate in large view when clicked
+        certCard.addEventListener('click', () => {
+            openCertificateViewer(cert.image, cert.name);
+        });
+
+        certificatesGrid.appendChild(certCard);
+    });
+}
+
+
+// ===========================
+// CERTIFICATE LARGE VIEWER
+// ===========================
+
+function openCertificateViewer(imageSrc, certificateName) {
+
+    // Remove existing viewer if there is one
+    const existingViewer = document.getElementById('certificateViewer');
+
+    if (existingViewer) {
+        existingViewer.remove();
+    }
+
+    const viewer = document.createElement('div');
+
+    viewer.id = 'certificateViewer';
+    viewer.className = 'certificate-viewer';
+
+    viewer.innerHTML = `
+        <div class="certificate-viewer-overlay"></div>
+
+        <div class="certificate-viewer-content">
+
+            <button 
+                class="certificate-close"
+                aria-label="Close certificate"
+            >
+                &times;
+            </button>
+
+            <img 
+                src="${imageSrc}" 
+                alt="${certificateName}"
+                class="certificate-large-image"
+            >
+
+            <p class="certificate-viewer-title">
+                ${certificateName}
+            </p>
+
+        </div>
+    `;
+
+    document.body.appendChild(viewer);
+
+    // Close button
+    viewer.querySelector('.certificate-close').addEventListener('click', () => {
+        viewer.remove();
+    });
+
+    // Close when clicking outside certificate
+    viewer.querySelector('.certificate-viewer-overlay').addEventListener('click', () => {
+        viewer.remove();
+    });
+
+    // Close with ESC key
+    document.addEventListener('keydown', function closeCertificate(event) {
+        if (event.key === 'Escape') {
+            viewer.remove();
+            document.removeEventListener('keydown', closeCertificate);
+        }
     });
 }
 
