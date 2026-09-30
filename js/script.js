@@ -153,24 +153,108 @@ function loadCertificates() {
 // LOAD GALLERY
 // ===========================
 
+
 function loadGallery() {
     const galleryGrid = document.getElementById('galleryGrid');
     galleryGrid.innerHTML = '';
 
-    // Sample gallery images - will be populated when user adds images
-    const gallery = [];
+    const gallery = [
+        {
+            src: 'images/_JAK0094 - Copy - Copy.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/1O1A1344 - Copy - Copy.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/1697697028627 - Copy (2).jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/1697697039529.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/1697697051478.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/1699455785274.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/DSC_7601 - Copy.JPG',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20231118-WA0161 - Copy.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20240330-WA0002.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20240330-WA0006.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20240330-WA0036.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20240617-WA0061.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20240617-WA0131.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20240724-WA0031.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20240724-WA0033.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20240724-WA0043.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20240928-WA0060.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20250120-WA0027.jpg',
+            alt: 'Sheldon Kasera'
+        },
+        {
+            src: 'images/IMG-20250209-WA0128.jpg',
+            alt: 'Sheldon Kasera'
+        }
+    ];
 
-    if (gallery.length === 0) {
-        galleryGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #7f8c8d; padding: 2rem;">No gallery images yet. Add your photos to the <code>images/</code> folder.</p>';
-    } else {
-        gallery.forEach(image => {
-            const galleryItem = document.createElement('div');
-            galleryItem.className = 'gallery-item';
-            galleryItem.innerHTML = `<img src="${image.src}" alt="${image.alt}">`;
-            galleryGrid.appendChild(galleryItem);
-        });
-    }
+    gallery.forEach(image => {
+        const galleryItem = document.createElement('div');
+        galleryItem.className = 'gallery-item';
+
+        galleryItem.innerHTML = `
+            <img 
+                src="${image.src}" 
+                alt="${image.alt}" 
+                loading="lazy"
+                onerror="this.parentElement.style.display='none';"
+            >
+        `;
+
+        galleryGrid.appendChild(galleryItem);
+    });
 }
+
+
 
 // ===========================
 // CONTACT FORM HANDLING
@@ -202,14 +286,24 @@ contactForm.addEventListener('submit', async (e) => {
 function populateContactInfo() {
     // Updated with your actual contact information
     const contactData = {
-        email: 'kaserasheldon7@gmail.com',
-        phone: '+254 727 515 329',
-        github: 'https://github.com/ka-sera',
-        linkedin: 'https://www.linkedin.com/in/sheldon-kasera-99a557305'
-    };
+    email: 'sheldonkasera9@gmail.com',
+    phone: '+254 727 515 329',
+    whatsapp: 'https://wa.me/254727515329',
+    github: 'https://github.com/ka-sera',
+    linkedin: 'https://www.linkedin.com/in/sheldon-kasera-99a557305'
+};
 
-    document.getElementById('contactEmail').textContent = contactData.email;
-    document.getElementById('contactPhone').textContent = contactData.phone;
+   document.getElementById('contactEmail').textContent = contactData.email;
+
+const phoneElement = document.getElementById('contactPhone');
+phoneElement.outerHTML = `
+    <a id="contactPhone"
+       href="${contactData.whatsapp}"
+       target="_blank"
+       rel="noopener noreferrer">
+        ${contactData.phone}
+    </a>
+`;
 
     const githubLink = document.getElementById('contactGithub');
     githubLink.href = contactData.github;
