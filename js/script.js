@@ -163,19 +163,6 @@ function loadGallery() {
             src: 'images/_JAK0094 - Copy - Copy.jpg',
             alt: 'Sheldon Kasera'
         },
-       
-        {
-            src: 'images/IMG-20240330-WA0006.jpg',
-            alt: 'Sheldon Kasera'
-        },
-        {
-            src: 'images/IMG-20240330-WA0036.jpg',
-            alt: 'Sheldon Kasera'
-        },
-        {
-            src: 'images/IMG-20240617-WA0061.jpg',
-            alt: 'Sheldon Kasera'
-        },
         {
             src: 'images/IMG-20240617-WA0131.jpg',
             alt: 'Sheldon Kasera'
