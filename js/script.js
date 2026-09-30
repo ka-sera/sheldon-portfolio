@@ -1,6 +1,12 @@
-// ===========================
+
+// ======================================================
+// SHELDON KASERA PORTFOLIO - MAIN JAVASCRIPT
+// ======================================================
+
+
+// ======================================================
 // MOBILE MENU TOGGLE
-// ===========================
+// ======================================================
 
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
@@ -12,6 +18,7 @@ if (hamburger && navMenu) {
     });
 }
 
+// Close mobile menu when navigation link is clicked
 document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
         if (hamburger) hamburger.classList.remove('active');
@@ -20,46 +27,54 @@ document.querySelectorAll('.nav-link').forEach(link => {
 });
 
 
-// ===========================
+// ======================================================
 // PROJECTS
-// ===========================
+// ======================================================
 
 const defaultProjects = [
     {
         title: 'Christ-like Missionaries',
-        description: 'A JavaScript-based project focused on creating a functional digital solution.',
-        image: '',
-        github: 'https://github.com/ka-sera/Christ-like-Missionaries'
+        description:
+            'A JavaScript project focused on building a functional digital solution. Explore the GitHub repository for the source code and project details.',
+        github:
+            'https://github.com/ka-sera/Christ-like-Missionaries'
     },
+
     {
         title: 'JUDIE',
-        description: 'An HTML-based project showcasing web structure, design and interactive content.',
-        image: '',
-        github: 'https://github.com/ka-sera/JUDIE'
+        description:
+            'An HTML-based project demonstrating web structure, design, and front-end development.',
+        github:
+            'https://github.com/ka-sera/JUDIE'
     },
+
     {
         title: 'Sheldon Portfolio',
-        description: 'A personal portfolio website built with HTML, CSS and JavaScript.',
-        image: '',
-        github: 'https://github.com/ka-sera/sheldon-portfolio'
+        description:
+            'An earlier version of my personal software engineering portfolio website.',
+        github:
+            'https://github.com/ka-sera/sheldon-portfolio'
     },
+
     {
         title: 'GitHub Skills: Introduction',
-        description: 'A learning and practice repository exploring GitHub workflows and development practices.',
-        image: '',
-        github: 'https://github.com/ka-sera/skills-introduction-to-github'
+        description:
+            'A learning and practice repository developed while exploring GitHub workflows and development practices.',
+        github:
+            'https://github.com/ka-sera/skills-introduction-to-github'
     }
 ];
 
 
-// ===========================
-// GITHUB PROJECT IMAGE
-// ===========================
-
+// Get GitHub repository information
 function getGithubRepoFromUrl(repoUrl) {
-    if (!repoUrl) return null;
+
+    if (!repoUrl) {
+        return null;
+    }
 
     try {
+
         const url = new URL(repoUrl);
 
         if (url.hostname !== 'github.com') {
@@ -79,23 +94,34 @@ function getGithubRepoFromUrl(repoUrl) {
             repo: parts[1]
         };
 
-    } catch {
+    } catch (error) {
+
+        console.error('Invalid GitHub URL:', repoUrl);
+
         return null;
     }
 }
 
 
+// GitHub preview image
 function getGithubOpenGraphImageUrl(repoUrl) {
+
     const repo = getGithubRepoFromUrl(repoUrl);
 
-    if (!repo) return null;
+    if (!repo) {
+        return null;
+    }
 
     return `https://opengraph.githubassets.com/1/${repo.owner}/${repo.repo}`;
 }
 
 
+// Get project image
 function getProjectImageUrl(project) {
-    if (!project) return null;
+
+    if (!project) {
+        return null;
+    }
 
     if (project.image) {
         return project.image;
@@ -105,20 +131,23 @@ function getProjectImageUrl(project) {
 }
 
 
-// ===========================
+// ======================================================
 // LOAD PROJECTS
-// ===========================
+// ======================================================
 
 function loadProjects() {
 
     const projectsGrid =
         document.getElementById('projectsGrid');
 
-    if (!projectsGrid) return;
+    if (!projectsGrid) {
+        console.warn('projectsGrid not found.');
+        return;
+    }
 
     projectsGrid.innerHTML = '';
 
-    defaultProjects.forEach(project => {
+    defaultProjects.forEach((project, index) => {
 
         const imageUrl =
             getProjectImageUrl(project);
@@ -126,27 +155,26 @@ function loadProjects() {
         const projectCard =
             document.createElement('div');
 
-        projectCard.className =
-            'project-card';
+        projectCard.className = 'project-card';
 
         projectCard.innerHTML = `
+
             <div class="project-image">
 
                 ${
                     imageUrl
-                    ? `
-                        <img
-                            src="${imageUrl}"
-                            alt="${project.title}"
-                            loading="lazy"
-                            onerror="
-                                this.remove();
-                                this.parentElement.innerHTML =
-                                '<span>📁 Project</span>';
-                            "
-                        >
-                    `
-                    : '<span>📁 Project</span>'
+                        ? `
+                            <img
+                                src="${imageUrl}"
+                                alt="${project.title}"
+                                loading="lazy"
+                                onerror="
+                                    this.style.display='none';
+                                    this.parentElement.innerHTML='<span>📁 Project</span>';
+                                "
+                            >
+                          `
+                        : '<span>📁 Project</span>'
                 }
 
             </div>
@@ -176,86 +204,106 @@ function loadProjects() {
             </div>
         `;
 
+        projectCard.style.animationDelay =
+            `${index * 0.1}s`;
+
         projectsGrid.appendChild(projectCard);
     });
 }
 
 
-// ===========================
+// ======================================================
 // CERTIFICATES
-// ===========================
+// ======================================================
 
 function loadCertificates() {
 
     const certificatesGrid =
         document.getElementById('certificatesGrid');
 
-    if (!certificatesGrid) return;
+    if (!certificatesGrid) {
+        console.warn('certificatesGrid not found.');
+        return;
+    }
 
     certificatesGrid.innerHTML = '';
+
 
     const certificates = [
 
         {
-            name: 'Bunimation Whiteboard Animation Course - Buni Sanara Program',
-            image: 'images/bunimation_certificate.jpg'
+            name:
+                'Bunimation Whiteboard Animation Course - Buni Sanara Program',
+
+            image:
+                'images/bunimation_certificate.jpg'
         }
 
     ];
 
-    certificates.forEach(cert => {
 
-        const certCard =
+    certificates.forEach(certificate => {
+
+        const certificateCard =
             document.createElement('div');
 
-        certCard.className =
+        certificateCard.className =
             'certificate-card';
 
-        certCard.innerHTML = `
+
+        certificateCard.innerHTML = `
+
             <div class="certificate-image">
 
                 <img
-                    src="${cert.image}"
-                    alt="${cert.name}"
+                    src="${certificate.image}"
+                    alt="${certificate.name}"
                     loading="lazy"
                     onerror="
-                        this.remove();
-                        this.parentElement.innerHTML =
-                        '<span>🏆</span>';
+                        this.style.display='none';
+                        this.parentElement.innerHTML='<span>🏆</span>';
                     "
                 >
 
             </div>
 
             <div class="certificate-name">
-                ${cert.name}
+
+                ${certificate.name}
+
             </div>
+
         `;
 
-        certificatesGrid.appendChild(certCard);
+        certificatesGrid.appendChild(
+            certificateCard
+        );
     });
 }
 
 
-// ===========================
+// ======================================================
 // GALLERY
-// ===========================
+// ======================================================
 
 function loadGallery() {
 
     const galleryGrid =
         document.getElementById('galleryGrid');
 
-    if (!galleryGrid) return;
+    if (!galleryGrid) {
+        console.warn('galleryGrid not found.');
+        return;
+    }
 
     galleryGrid.innerHTML = '';
 
-    /*
-     * ONLY these photos appear on the website.
-     *
-     * Other images may remain inside the GitHub
-     * images folder but will not appear here.
-     */
+
+    // These are the photos that should appear
+    // on the actual website.
+    //
+    // Other photos can remain inside GitHub
+    // without appearing on the portfolio.
 
     const gallery = [
 
@@ -317,7 +365,7 @@ function loadGallery() {
     ];
 
 
-    gallery.forEach(image => {
+    gallery.forEach((image, index) => {
 
         const galleryItem =
             document.createElement('div');
@@ -325,7 +373,9 @@ function loadGallery() {
         galleryItem.className =
             'gallery-item';
 
+
         galleryItem.innerHTML = `
+
             <img
                 src="${image.src}"
                 alt="${image.alt}"
@@ -334,50 +384,40 @@ function loadGallery() {
                     this.parentElement.style.display='none';
                 "
             >
+
         `;
 
-        galleryGrid.appendChild(galleryItem);
-    });
-}
+
+        galleryItem.style.animationDelay =
+            `${index * 0.08}s`;
 
 
-// ===========================
-// CONTACT FORM
-// ===========================
-
-const contactForm =
-    document.getElementById('contactForm');
-
-if (contactForm) {
-
-    contactForm.addEventListener('submit', (e) => {
-
-        e.preventDefault();
-
-        alert(
-            'Thank you for your message! I will get back to you soon.'
+        galleryGrid.appendChild(
+            galleryItem
         );
-
-        contactForm.reset();
     });
 }
 
 
-// ===========================
+// ======================================================
 // CONTACT INFORMATION
-// ===========================
+// ======================================================
 
 function populateContactInfo() {
 
     const contactData = {
 
-        email: 'sheldonkasera9@gmail.com',
+        email:
+            'sheldonkasera9@gmail.com',
 
-        phone: '+254 727 515 329',
+        phone:
+            '+254 727 515 329',
 
-        whatsapp: 'https://wa.me/254727515329',
+        whatsapp:
+            'https://wa.me/254727515329',
 
-        github: 'https://github.com/ka-sera',
+        github:
+            'https://github.com/ka-sera',
 
         linkedin:
             'https://www.linkedin.com/in/sheldon-kasera-99a557305'
@@ -385,9 +425,7 @@ function populateContactInfo() {
     };
 
 
-    // ===========================
     // EMAIL
-    // ===========================
 
     const emailElement =
         document.getElementById('contactEmail');
@@ -396,34 +434,45 @@ function populateContactInfo() {
 
         emailElement.textContent =
             contactData.email;
+
+        emailElement.href =
+            `mailto:${contactData.email}`;
     }
 
 
-    // ===========================
-    // WHATSAPP
-    // ===========================
+    // PHONE → WHATSAPP
 
     const phoneElement =
         document.getElementById('contactPhone');
 
     if (phoneElement) {
 
-        phoneElement.outerHTML = `
-            <a
-                id="contactPhone"
-                href="${contactData.whatsapp}"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                ${contactData.phone}
-            </a>
-        `;
+        const whatsappLink =
+            document.createElement('a');
+
+        whatsappLink.id =
+            'contactPhone';
+
+        whatsappLink.href =
+            contactData.whatsapp;
+
+        whatsappLink.target =
+            '_blank';
+
+        whatsappLink.rel =
+            'noopener noreferrer';
+
+        whatsappLink.textContent =
+            contactData.phone;
+
+
+        phoneElement.replaceWith(
+            whatsappLink
+        );
     }
 
 
-    // ===========================
     // GITHUB
-    // ===========================
 
     const githubLink =
         document.getElementById('contactGithub');
@@ -434,16 +483,17 @@ function populateContactInfo() {
             contactData.github;
 
         githubLink.textContent =
-            contactData.github.replace(
-                /^https?:\/\//,
-                ''
-            );
+            'github.com/ka-sera';
+
+        githubLink.target =
+            '_blank';
+
+        githubLink.rel =
+            'noopener noreferrer';
     }
 
 
-    // ===========================
     // LINKEDIN
-    // ===========================
 
     const linkedinLink =
         document.getElementById('contactLinkedin');
@@ -455,13 +505,44 @@ function populateContactInfo() {
 
         linkedinLink.textContent =
             'LinkedIn Profile';
+
+        linkedinLink.target =
+            '_blank';
+
+        linkedinLink.rel =
+            'noopener noreferrer';
     }
 }
 
 
-// ===========================
-// SMOOTH SCROLL
-// ===========================
+// ======================================================
+// CONTACT FORM
+// ======================================================
+
+const contactForm =
+    document.getElementById('contactForm');
+
+if (contactForm) {
+
+    contactForm.addEventListener(
+        'submit',
+        function (event) {
+
+            event.preventDefault();
+
+            alert(
+                'Thank you for your message! I will get back to you soon.'
+            );
+
+            contactForm.reset();
+        }
+    );
+}
+
+
+// ======================================================
+// SMOOTH SCROLLING
+// ======================================================
 
 document
     .querySelectorAll('a[href^="#"]')
@@ -469,39 +550,42 @@ document
 
         anchor.addEventListener(
             'click',
-            function (e) {
+            function (event) {
 
-                e.preventDefault();
+                const targetId =
+                    this.getAttribute('href');
+
+                if (!targetId || targetId === '#') {
+                    return;
+                }
 
                 const target =
-                    document.querySelector(
-                        this.getAttribute('href')
-                    );
+                    document.querySelector(targetId);
 
                 if (target) {
+
+                    event.preventDefault();
 
                     target.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
                 }
-
             }
         );
-
     });
 
 
-// ===========================
-// FADE IN ON SCROLL
-// ===========================
+// ======================================================
+// FADE-IN SECTION ANIMATION
+// ======================================================
 
 const observerOptions = {
 
     threshold: 0.1,
 
     rootMargin:
-        '0px 0px -100px 0px'
+        '0px 0px -80px 0px'
 
 };
 
@@ -519,6 +603,10 @@ const observer =
 
                     entry.target.style.transform =
                         'translateY(0)';
+
+                    observer.unobserve(
+                        entry.target
+                    );
                 }
 
             });
@@ -527,6 +615,8 @@ const observer =
         observerOptions
     );
 
+
+// Observe sections
 
 document
     .querySelectorAll('section')
@@ -541,65 +631,61 @@ document
             'opacity 0.6s ease, transform 0.6s ease';
 
         observer.observe(section);
-
     });
 
 
-// ===========================
-// INITIALIZE WEBSITE
-// ===========================
-
-window.addEventListener('load', () => {
-
-    loadProjects();
-
-    loadCertificates();
-
-    loadGallery();
-
-    populateContactInfo();
-
-
-    // Project animation delay
-
-    document
-        .querySelectorAll('.project-card')
-        .forEach((card, index) => {
-
-            card.style.animationDelay =
-                `${index * 0.1}s`;
-
-        });
-
-});
-
-
-// ===========================
+// ======================================================
 // NAVBAR SCROLL EFFECT
-// ===========================
+// ======================================================
 
 const navbar =
     document.querySelector('.navbar');
 
 
-window.addEventListener('scroll', () => {
+window.addEventListener(
+    'scroll',
+    () => {
 
-    if (!navbar) return;
+        if (!navbar) {
+            return;
+        }
 
-    const scrollTop =
-        window.pageYOffset ||
-        document.documentElement.scrollTop;
+        const scrollTop =
+            window.pageYOffset ||
+            document.documentElement.scrollTop;
 
 
-    if (scrollTop > 100) {
+        if (scrollTop > 100) {
 
-        navbar.style.boxShadow =
-            '0 5px 30px rgba(0, 128, 128, 0.2)';
+            navbar.style.boxShadow =
+                '0 5px 30px rgba(0, 128, 128, 0.2)';
 
-    } else {
+        } else {
 
-        navbar.style.boxShadow =
-            '0 5px 20px rgba(0, 128, 128, 0.15)';
+            navbar.style.boxShadow =
+                '0 5px 20px rgba(0, 128, 128, 0.15)';
+        }
+
     }
+);
 
-});
+
+// ======================================================
+// INITIALIZE WEBSITE
+// ======================================================
+
+window.addEventListener(
+    'load',
+    () => {
+
+        loadProjects();
+
+        loadCertificates();
+
+        loadGallery();
+
+        populateContactInfo();
+
+    }
+);
+
