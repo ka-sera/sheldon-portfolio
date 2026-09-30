@@ -149,7 +149,7 @@ function loadCertificates() {
     }
 }
 
-```js
+
 // ===========================
 // LOAD GALLERY
 // ===========================
@@ -223,7 +223,7 @@ function loadGallery() {
         galleryGrid.appendChild(galleryItem);
     });
 }
-```
+
 
 
 
@@ -267,14 +267,14 @@ function populateContactInfo() {
    document.getElementById('contactEmail').textContent = contactData.email;
 
 const phoneElement = document.getElementById('contactPhone');
-phoneElement.outerHTML = `
+phoneElement.outerHTML = 
     <a id="contactPhone"
        href="${contactData.whatsapp}"
        target="_blank"
        rel="noopener noreferrer">
         ${contactData.phone}
     </a>
-`;
+    ;
 
     const githubLink = document.getElementById('contactGithub');
     githubLink.href = contactData.github;
