@@ -167,32 +167,14 @@ function loadGallery() {
             src: 'images/1O1A1344 - Copy - Copy.jpg',
             alt: 'Sheldon Kasera'
         },
-        {
-            src: 'images/1697697028627 - Copy (2).jpg',
-            alt: 'Sheldon Kasera'
-        },
+       
         {
             src: 'images/1697697039529.jpg',
             alt: 'Sheldon Kasera'
         },
-        {
-            src: 'images/1697697051478.jpg',
-            alt: 'Sheldon Kasera'
-        },
-        {
-            src: 'images/1699455785274.jpg',
-            alt: 'Sheldon Kasera'
-        },
+       
         {
             src: 'images/DSC_7601 - Copy.JPG',
-            alt: 'Sheldon Kasera'
-        },
-        {
-            src: 'images/IMG-20231118-WA0161 - Copy.jpg',
-            alt: 'Sheldon Kasera'
-        },
-        {
-            src: 'images/IMG-20240330-WA0002.jpg',
             alt: 'Sheldon Kasera'
         },
         {
