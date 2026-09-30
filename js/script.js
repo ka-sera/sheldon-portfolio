@@ -216,6 +216,7 @@ function loadProjects() {
 // CERTIFICATES
 // ======================================================
 
+
 function loadCertificates() {
 
     const certificatesGrid =
@@ -228,19 +229,24 @@ function loadCertificates() {
 
     certificatesGrid.innerHTML = '';
 
-
     const certificates = [
 
         {
-            name:
-                'Bunimation Whiteboard Animation Course - Buni Sanara Program',
+            name: 'Bunimation Whiteboard Animation Course - Buni Sanara Program',
+            image: 'images/bunimation_certificate.jpg'
+        },
 
-            image:
-                'images/bunimation_certificate.jpg'
+        {
+            name: 'ALX AICE AI Career Essentials Certificate',
+            image: 'images/73-alx-aice-ai-career-essentials-certificate-sheldon-kasera.png'
+        },
+
+        {
+            name: 'ALX Virtual Assistant Certificate',
+            image: 'images/72-virtual-assistant-certificate-sheldon-kasera.png'
         }
 
     ];
-
 
     certificates.forEach(certificate => {
 
@@ -249,7 +255,6 @@ function loadCertificates() {
 
         certificateCard.className =
             'certificate-card';
-
 
         certificateCard.innerHTML = `
 
@@ -268,9 +273,7 @@ function loadCertificates() {
             </div>
 
             <div class="certificate-name">
-
                 ${certificate.name}
-
             </div>
 
         `;
@@ -280,6 +283,7 @@ function loadCertificates() {
         );
     });
 }
+
 
 
 // ======================================================
