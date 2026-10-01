@@ -220,6 +220,9 @@ function loadProjects() {
 
 function loadCertificates() {
     const certificatesGrid = document.getElementById('certificatesGrid');
+
+    if (!certificatesGrid) return;
+
     certificatesGrid.innerHTML = '';
 
     const certificates = [
@@ -237,73 +240,70 @@ function loadCertificates() {
         }
     ];
 
-    certificates.forEach(cert => {
-        const certCard = document.createElement('div');
-        certCard.className = 'certificate-card';
+    certificates.forEach((certificate) => {
 
-        certCard.innerHTML = `
+        const card = document.createElement('div');
+        card.className = 'certificate-card';
+
+        card.innerHTML = `
             <div class="certificate-image">
-                <img 
-                    src="${cert.image}" 
-                    alt="${cert.name}" 
+                <img
+                    src="${certificate.image}"
+                    alt="${certificate.name}"
                     loading="lazy"
                 >
             </div>
 
             <div class="certificate-name">
-                ${cert.name}
+                ${certificate.name}
+            </div>
+
+            <div class="certificate-view-hint">
+                Click to view larger
             </div>
         `;
 
-        // Open certificate in large view when clicked
-        certCard.addEventListener('click', () => {
-            openCertificateViewer(cert.image, cert.name);
+        card.addEventListener('click', function () {
+            showCertificate(certificate.image, certificate.name);
         });
 
-        certificatesGrid.appendChild(certCard);
+        certificatesGrid.appendChild(card);
     });
 }
 
 
 // ===========================
-// CERTIFICATE LARGE VIEWER
+// CERTIFICATE FULL-SCREEN VIEW
 // ===========================
 
-function openCertificateViewer(imageSrc, certificateName) {
-
-    // Remove existing viewer if there is one
-    const existingViewer = document.getElementById('certificateViewer');
-
-    if (existingViewer) {
-        existingViewer.remove();
-    }
+function showCertificate(image, title) {
 
     const viewer = document.createElement('div');
 
-    viewer.id = 'certificateViewer';
-    viewer.className = 'certificate-viewer';
+    viewer.className = 'certificate-modal';
 
     viewer.innerHTML = `
-        <div class="certificate-viewer-overlay"></div>
+        <div class="certificate-modal-background"></div>
 
-        <div class="certificate-viewer-content">
+        <div class="certificate-modal-content">
 
-            <button 
-                class="certificate-close"
+            <button
+                type="button"
+                class="certificate-modal-close"
                 aria-label="Close certificate"
             >
                 &times;
             </button>
 
-            <img 
-                src="${imageSrc}" 
-                alt="${certificateName}"
-                class="certificate-large-image"
+            <img
+                src="${image}"
+                alt="${title}"
+                class="certificate-modal-image"
             >
 
-            <p class="certificate-viewer-title">
-                ${certificateName}
-            </p>
+            <h3 class="certificate-modal-title">
+                ${title}
+            </h3>
 
         </div>
     `;
@@ -311,22 +311,26 @@ function openCertificateViewer(imageSrc, certificateName) {
     document.body.appendChild(viewer);
 
     // Close button
-    viewer.querySelector('.certificate-close').addEventListener('click', () => {
-        viewer.remove();
-    });
+    viewer.querySelector('.certificate-modal-close')
+        .addEventListener('click', function () {
+            viewer.remove();
+        });
 
-    // Close when clicking outside certificate
-    viewer.querySelector('.certificate-viewer-overlay').addEventListener('click', () => {
-        viewer.remove();
-    });
+    // Close when clicking the dark background
+    viewer.querySelector('.certificate-modal-background')
+        .addEventListener('click', function () {
+            viewer.remove();
+        });
 
-    // Close with ESC key
-    document.addEventListener('keydown', function closeCertificate(event) {
+    // Close with Escape
+    function closeWithEscape(event) {
         if (event.key === 'Escape') {
             viewer.remove();
-            document.removeEventListener('keydown', closeCertificate);
+            document.removeEventListener('keydown', closeWithEscape);
         }
-    });
+    }
+
+    document.addEventListener('keydown', closeWithEscape);
 }
 
 
