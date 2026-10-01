@@ -123,13 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.animationDelay =
                 `${index * 0.1}s`;
 
-            card.innerHTML = `
+            card.innerHTML = 
 
                 <div class="project-image">
 
                     ${
                         preview
-                            ? `
+                            ? 
                                 <img
                                     src="${preview}"
                                     alt="${project.title} project preview"
@@ -139,10 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                         this.parentElement.innerHTML='<span>📁 Project</span>';
                                     "
                                 >
-                              `
-                            : `
+                              
+                            : 
                                 <span>📁 Project</span>
-                              `
+                              
                     }
 
                 </div>
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
 
                 </div>
-            `;
+            ;
 
             projectsGrid.appendChild(card);
 
@@ -209,7 +209,7 @@ function loadCertificates() {
         const card = document.createElement('div');
         card.className = 'certificate-card';
 
-        card.innerHTML = `
+        card.innerHTML = 
             <div class="certificate-image">
                 <img
                     src="${certificate.image}"
@@ -225,7 +225,7 @@ function loadCertificates() {
             <div class="certificate-view-hint">
                 Click to view larger
             </div>
-        `;
+        ;
 
         card.addEventListener('click', function () {
             showCertificate(certificate.image, certificate.name);
@@ -246,7 +246,7 @@ function showCertificate(image, title) {
 
     viewer.className = 'certificate-modal';
 
-    viewer.innerHTML = `
+    viewer.innerHTML = 
         <div class="certificate-modal-background"></div>
 
         <div class="certificate-modal-content">
@@ -270,7 +270,7 @@ function showCertificate(image, title) {
             </h3>
 
         </div>
-    `;
+    ;
 
     document.body.appendChild(viewer);
 
