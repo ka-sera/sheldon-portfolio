@@ -1,718 +1,775 @@
+// ============================================================
+// SHELDON KASERA PORTFOLIO
+// Main JavaScript
+// ============================================================
 
-// ======================================================
-// SHELDON KASERA PORTFOLIO - MAIN JAVASCRIPT
-// ======================================================
-
-
-// ======================================================
-// MOBILE MENU TOGGLE
-// ======================================================
+// ============================================================
+// MOBILE MENU
+// ============================================================
 
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 
 if (hamburger && navMenu) {
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
-}
 
-// Close mobile menu when navigation link is clicked
+
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+});
+
 document.querySelectorAll('.nav-link').forEach(link => {
+
     link.addEventListener('click', () => {
-        if (hamburger) hamburger.classList.remove('active');
-        if (navMenu) navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
     });
+
 });
 
 
-// ======================================================
+}
+
+// ============================================================
 // PROJECTS
-// ======================================================
+// ============================================================
 
-const defaultProjects = [
-    {
-        title: 'Christ-like Missionaries',
-        description:
-            'A JavaScript project focused on building a functional digital solution. Explore the GitHub repository for the source code and project details.',
-        github:
-            'https://github.com/ka-sera/Christ-like-Missionaries'
-    },
+const projects = [
 
-    {
-        title: 'JUDIE',
-        description:
-            'An HTML-based project demonstrating web structure, design, and front-end development.',
-        github:
-            'https://github.com/ka-sera/JUDIE'
-    },
 
-    {
-        title: 'Sheldon Portfolio',
-        description:
-            'An earlier version of my personal software engineering portfolio website.',
-        github:
-            'https://github.com/ka-sera/sheldon-portfolio'
-    },
+{
+    title: 'Christ-like Missionaries',
+    description:
+        'A JavaScript project focused on developing a practical digital solution.',
+    github:
+        'https://github.com/ka-sera/Christ-like-Missionaries'
+},
 
-    {
-        title: 'GitHub Skills: Introduction',
-        description:
-            'A learning and practice repository developed while exploring GitHub workflows and development practices.',
-        github:
-            'https://github.com/ka-sera/skills-introduction-to-github'
-    }
+{
+    title: 'JUDIE',
+    description:
+        'An HTML-based project demonstrating web structure, design and development.',
+    github:
+        'https://github.com/ka-sera/JUDIE'
+},
+
+{
+    title: 'Sheldon Portfolio',
+    description:
+        'An earlier version of my personal software engineering portfolio.',
+    github:
+        'https://github.com/ka-sera/sheldon-portfolio'
+},
+
+{
+    title: 'GitHub Skills: Introduction',
+    description:
+        'A practical learning repository created while developing GitHub and software development skills.',
+    github:
+        'https://github.com/ka-sera/skills-introduction-to-github'
+}
+
+
 ];
 
+function getGithubPreview(repoUrl) {
 
-// Get GitHub repository information
-function getGithubRepoFromUrl(repoUrl) {
 
-    if (!repoUrl) {
+try {
+
+    const url = new URL(repoUrl);
+
+    if (url.hostname !== 'github.com') {
         return null;
     }
 
-    try {
+    const parts = url.pathname
+        .replace(/^\/|\/$/g, '')
+        .split('/');
 
-        const url = new URL(repoUrl);
-
-        if (url.hostname !== 'github.com') {
-            return null;
-        }
-
-        const parts = url.pathname
-            .replace(/^\/|\/$/g, '')
-            .split('/');
-
-        if (parts.length < 2) {
-            return null;
-        }
-
-        return {
-            owner: parts[0],
-            repo: parts[1]
-        };
-
-    } catch (error) {
-
-        console.error('Invalid GitHub URL:', repoUrl);
-
+    if (parts.length < 2) {
         return null;
     }
+
+    const owner = parts[0];
+    const repo = parts[1];
+
+    return `https://opengraph.githubassets.com/1/${owner}/${repo}`;
+
+} catch (error) {
+
+    console.error('Invalid GitHub URL:', repoUrl);
+
+    return null;
 }
 
 
-// GitHub preview image
-function getGithubOpenGraphImageUrl(repoUrl) {
-
-    const repo = getGithubRepoFromUrl(repoUrl);
-
-    if (!repo) {
-        return null;
-    }
-
-    return `https://opengraph.githubassets.com/1/${repo.owner}/${repo.repo}`;
 }
-
-
-// Get project image
-function getProjectImageUrl(project) {
-
-    if (!project) {
-        return null;
-    }
-
-    if (project.image) {
-        return project.image;
-    }
-
-    return getGithubOpenGraphImageUrl(project.github);
-}
-
-
-// ======================================================
-// LOAD PROJECTS
-// ======================================================
 
 function loadProjects() {
 
-    const projectsGrid =
-        document.getElementById('projectsGrid');
 
-    if (!projectsGrid) {
-        console.warn('projectsGrid not found.');
-        return;
-    }
+const projectsGrid =
+    document.getElementById('projectsGrid');
 
-    projectsGrid.innerHTML = '';
+if (!projectsGrid) {
+    return;
+}
 
-    defaultProjects.forEach((project, index) => {
+projectsGrid.innerHTML = '';
 
-        const imageUrl =
-            getProjectImageUrl(project);
+projects.forEach((project, index) => {
 
-        const projectCard =
-            document.createElement('div');
+    const preview =
+        getGithubPreview(project.github);
 
-        projectCard.className = 'project-card';
+    const card =
+        document.createElement('div');
 
-        projectCard.innerHTML = `
+    card.className = 'project-card';
 
-            <div class="project-image">
+    card.style.animationDelay =
+        `${index * 0.1}s`;
 
-                ${
-                    imageUrl
-                        ? `
-                            <img
-                                src="${imageUrl}"
-                                alt="${project.title}"
-                                loading="lazy"
-                                onerror="
-                                    this.style.display='none';
-                                    this.parentElement.innerHTML='<span>📁 Project</span>';
-                                "
-                            >
-                          `
-                        : '<span>📁 Project</span>'
-                }
+    card.innerHTML = `
+
+        <div class="project-image">
+
+            ${
+                preview
+
+                ?
+
+                
+                <img
+                    src="${preview}"
+                    alt="${project.title} project preview"
+                    loading="lazy"
+                    onerror="
+                        this.style.display='none';
+                        this.parentElement.innerHTML='<span> Project</span>';
+                    "
+                >
+                
+
+                :
+
+                `<span> Project</span>`
+            }
+
+        </div>
+
+
+        <div class="project-content">
+
+            <h3 class="project-title">
+                ${project.title}
+            </h3>
+
+            <p class="project-description">
+                ${project.description}
+            </p>
+
+            <div class="project-links">
+
+                <a
+                    href="${project.github}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    View on GitHub
+                </a>
 
             </div>
 
-            <div class="project-content">
+        </div>
 
-                <h3 class="project-title">
-                    ${project.title}
-                </h3>
+    ;
 
-                <p class="project-description">
-                    ${project.description}
-                </p>
+    projectsGrid.appendChild(card);
 
-                <div class="project-links">
+});
 
-                    <a
-                        href="${project.github}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        View on GitHub
-                    </a>
 
-                </div>
+}
 
-            </div>
-        `;
+// ============================================================
+// CERTIFICATES
+// ============================================================
 
-        projectCard.style.animationDelay =
-            `${index * 0.1}s`;
+const certificates = [
 
-        projectsGrid.appendChild(projectCard);
-    });
+
+{
+    name:
+        'Bunimation Whiteboard Animation Course - Buni Sanara Program',
+
+    image:
+        'images/bunimation_certificate.jpg'
+},
+
+{
+    name:
+        'ALX AI Career Essentials',
+
+    image:
+        'images/73-alx-aice-ai-career-essentials-certificate-sheldon-kasera.png'
+},
+
+{
+    name:
+        'Virtual Assistant Certificate',
+
+    image:
+        'images/72-virtual-assistant-certificate-sheldon-kasera.png'
 }
 
 
-
-
-// ===========================
-// LOAD CERTIFICATES
-// ===========================
+];
 
 function loadCertificates() {
-    const certificatesGrid = document.getElementById('certificatesGrid');
 
-    if (!certificatesGrid) return;
 
-    certificatesGrid.innerHTML = '';
+const certificatesGrid =
+    document.getElementById('certificatesGrid');
 
-    const certificates = [
-        {
-            name: 'Bunimation Whiteboard Animation Course - Buni Sanara Program',
-            image: 'images/bunimation_certificate.jpg'
-        },
-        {
-            name: 'ALX AI Career Essentials',
-            image: 'images/73-alx-aice-ai-career-essentials-certificate-sheldon-kasera.png'
-        },
-        {
-            name: 'Virtual Assistant Certificate',
-            image: 'images/72-virtual-assistant-certificate-sheldon-kasera.png'
-        }
-    ];
+if (!certificatesGrid) {
+    return;
+}
 
-    certificates.forEach((certificate) => {
+certificatesGrid.innerHTML = '';
 
-        const card = document.createElement('div');
-        card.className = 'certificate-card';
+certificates.forEach((certificate, index) => {
 
-        card.innerHTML = `
+    const card =
+        document.createElement('div');
+
+    card.className = 'certificate-card';
+
+    card.style.animationDelay =
+        `${index * 0.1}s`;
+
+    card.innerHTML = 
+
+        <button
+            class="certificate-view"
+            type="button"
+            aria-label="View ${certificate.name} in larger size"
+            data-image="${certificate.image}"
+            data-name="${certificate.name}"
+        >
+
             <div class="certificate-image">
+
                 <img
                     src="${certificate.image}"
                     alt="${certificate.name}"
                     loading="lazy"
                 >
+
             </div>
 
             <div class="certificate-name">
                 ${certificate.name}
             </div>
 
-            <div class="certificate-view-hint">
-                Click to view larger
+            <div class="certificate-view-text">
+                Click to enlarge
             </div>
-        `;
 
-        card.addEventListener('click', function () {
-            showCertificate(certificate.image, certificate.name);
-        });
+        </button>
 
-        certificatesGrid.appendChild(card);
+    ;
+
+    certificatesGrid.appendChild(card);
+
+});
+
+setupCertificateViewer();
+
+
+}
+
+// ============================================================
+// CERTIFICATE VIEWER
+// ============================================================
+
+function setupCertificateViewer() {
+
+
+const modal =
+    document.getElementById('certificateModal');
+
+const modalImage =
+    document.getElementById('certificateModalImage');
+
+const closeButton =
+    document.getElementById('certificateModalClose');
+
+const certificateButtons =
+    document.querySelectorAll('.certificate-view');
+
+
+if (
+    !modal ||
+    !modalImage ||
+    !closeButton
+) {
+    return;
+}
+
+
+certificateButtons.forEach(button => {
+
+    button.addEventListener('click', () => {
+
+        const image =
+            button.getAttribute('data-image');
+
+        const name =
+            button.getAttribute('data-name');
+
+
+        modalImage.src = image;
+        modalImage.alt = name;
+
+        modal.classList.add('active');
+
+        modal.setAttribute(
+            'aria-hidden',
+            'false'
+        );
+
+        document.body.style.overflow = 'hidden';
+
     });
+
+});
+
+
+function closeCertificate() {
+
+    modal.classList.remove('active');
+
+    modal.setAttribute(
+        'aria-hidden',
+        'true'
+    );
+
+    modalImage.src = '';
+
+    document.body.style.overflow = '';
+
 }
 
 
-// ===========================
-// CERTIFICATE FULL-SCREEN VIEW
-// ===========================
+closeButton.addEventListener(
+    'click',
+    closeCertificate
+);
 
-function showCertificate(image, title) {
 
-    const viewer = document.createElement('div');
+modal.addEventListener(
+    'click',
+    event => {
 
-    viewer.className = 'certificate-modal';
-
-    viewer.innerHTML = `
-        <div class="certificate-modal-background"></div>
-
-        <div class="certificate-modal-content">
-
-            <button
-                type="button"
-                class="certificate-modal-close"
-                aria-label="Close certificate"
-            >
-                &times;
-            </button>
-
-            <img
-                src="${image}"
-                alt="${title}"
-                class="certificate-modal-image"
-            >
-
-            <h3 class="certificate-modal-title">
-                ${title}
-            </h3>
-
-        </div>
-    `;
-
-    document.body.appendChild(viewer);
-
-    // Close button
-    viewer.querySelector('.certificate-modal-close')
-        .addEventListener('click', function () {
-            viewer.remove();
-        });
-
-    // Close when clicking the dark background
-    viewer.querySelector('.certificate-modal-background')
-        .addEventListener('click', function () {
-            viewer.remove();
-        });
-
-    // Close with Escape
-    function closeWithEscape(event) {
-        if (event.key === 'Escape') {
-            viewer.remove();
-            document.removeEventListener('keydown', closeWithEscape);
+        if (event.target === modal) {
+            closeCertificate();
         }
-    }
 
-    document.addEventListener('keydown', closeWithEscape);
+    }
+);
+
+
+document.addEventListener(
+    'keydown',
+    event => {
+
+        if (
+            event.key === 'Escape' &&
+            modal.classList.contains('active')
+        ) {
+
+            closeCertificate();
+
+        }
+
+    }
+);
+
+
+}
+
+// ============================================================
+// GALLERY
+// ============================================================
+
+const gallery = [
+
+
+{
+    src:
+        'images/_JAK0094 - Copy - Copy.jpg',
+
+    alt:
+        'Sheldon Kasera'
+},
+
+{
+    src:
+        'images/IMG-20231118-WA0161 - Copy.jpg',
+
+    alt:
+        'Sheldon Kasera'
+},
+
+{
+    src:
+        'images/IMG-20240330-WA0036.jpg',
+
+    alt:
+        'Sheldon Kasera'
+},
+
+{
+    src:
+        'images/IMG-20240617-WA0061.jpg',
+
+    alt:
+        'Sheldon Kasera'
+},
+
+{
+    src:
+        'images/IMG-20240617-WA0131.jpg',
+
+    alt:
+        'Sheldon Kasera'
+},
+
+{
+    src:
+        'images/IMG-20240724-WA0031.jpg',
+
+    alt:
+        'Sheldon Kasera'
+},
+
+{
+    src:
+        'images/IMG-20240724-WA0033.jpg',
+
+    alt:
+        'Sheldon Kasera'
+},
+
+{
+    src:
+        'images/IMG-20240724-WA0043.jpg',
+
+    alt:
+        'Sheldon Kasera'
+},
+
+{
+    src:
+        'images/IMG-20240928-WA0060.jpg',
+
+    alt:
+        'Sheldon Kasera'
+},
+
+{
+    src:
+        'images/IMG-20250120-WA0027.jpg',
+
+    alt:
+        'Sheldon Kasera'
+},
+
+{
+    src:
+        'images/IMG-20250209-WA0128.jpg',
+
+    alt:
+        'Sheldon Kasera'
 }
 
 
-
-// ======================================================
-// GALLERY
-// ======================================================
+];
 
 function loadGallery() {
 
-    const galleryGrid =
-        document.getElementById('galleryGrid');
 
-    if (!galleryGrid) {
-        console.warn('galleryGrid not found.');
-        return;
-    }
+const galleryGrid =
+    document.getElementById('galleryGrid');
 
-    galleryGrid.innerHTML = '';
+if (!galleryGrid) {
+    return;
+}
+
+galleryGrid.innerHTML = '';
 
 
-    // These are the photos that should appear
-    // on the actual website.
-    //
-    // Other photos can remain inside GitHub
-    // without appearing on the portfolio.
+gallery.forEach((image, index) => {
 
-    const gallery = [
+    const galleryItem =
+        document.createElement('div');
 
-        {
-            src: 'images/_JAK0094 - Copy - Copy.jpg',
-            alt: 'Sheldon Kasera'
-        },
+    galleryItem.className =
+        'gallery-item';
 
-        {
-            src: 'images/IMG-20231118-WA0161 - Copy.jpg',
-            alt: 'Sheldon Kasera'
-        },
+    galleryItem.style.animationDelay =
+        `${index * 0.08}s`;
 
-        {
-            src: 'images/IMG-20240330-WA0036.jpg',
-            alt: 'Sheldon Kasera'
-        },
 
-        {
-            src: 'images/IMG-20240617-WA0061.jpg',
-            alt: 'Sheldon Kasera'
-        },
+    const img =
+        document.createElement('img');
 
-        {
-            src: 'images/IMG-20240617-WA0131.jpg',
-            alt: 'Sheldon Kasera'
-        },
+    img.src = image.src;
 
-        {
-            src: 'images/IMG-20240724-WA0031.jpg',
-            alt: 'Sheldon Kasera'
-        },
+    img.alt = image.alt;
 
-        {
-            src: 'images/IMG-20240724-WA0033.jpg',
-            alt: 'Sheldon Kasera'
-        },
+    img.loading = 'lazy';
 
-        {
-            src: 'images/IMG-20240724-WA0043.jpg',
-            alt: 'Sheldon Kasera'
-        },
 
-        {
-            src: 'images/IMG-20240928-WA0060.jpg',
-            alt: 'Sheldon Kasera'
-        },
+    img.addEventListener(
+        'error',
+        () => {
 
-        {
-            src: 'images/IMG-20250120-WA0027.jpg',
-            alt: 'Sheldon Kasera'
-        },
+            galleryItem.style.display =
+                'none';
 
-        {
-            src: 'images/IMG-20250209-WA0128.jpg',
-            alt: 'Sheldon Kasera'
+        }
+    );
+
+
+    galleryItem.appendChild(img);
+
+    galleryGrid.appendChild(galleryItem);
+
+});
+
+
+}
+
+// ============================================================
+// SMOOTH SCROLLING
+// ============================================================
+
+document.querySelectorAll(
+a[href^="#"]
+).forEach(anchor => {
+
+
+anchor.addEventListener(
+    'click',
+    function (event) {
+
+        const targetId =
+            this.getAttribute('href');
+
+        if (
+            !targetId ||
+            targetId === '#'
+        ) {
+            return;
         }
 
-    ];
+
+        const target =
+            document.querySelector(targetId);
 
 
-    gallery.forEach((image, index) => {
+        if (target) {
 
-        const galleryItem =
-            document.createElement('div');
+            event.preventDefault();
 
-        galleryItem.className =
-            'gallery-item';
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
 
+        }
 
-        galleryItem.innerHTML = `
-
-            <img
-                src="${image.src}"
-                alt="${image.alt}"
-                loading="lazy"
-                onerror="
-                    this.parentElement.style.display='none';
-                "
-            >
-
-        `;
+    }
+);
 
 
-        galleryItem.style.animationDelay =
-            `${index * 0.08}s`;
+});
+
+// ============================================================
+// SECTION FADE-IN ANIMATION
+// ============================================================
+
+function setupScrollAnimations() {
 
 
-        galleryGrid.appendChild(
-            galleryItem
-        );
-    });
+const sections =
+    document.querySelectorAll('section');
+
+
+if (
+    !('IntersectionObserver' in window)
+) {
+    return;
 }
-
-
-// ======================================================
-// CONTACT INFORMATION
-// ======================================================
-
-function populateContactInfo() {
-
-    const contactData = {
-
-        email:
-            'sheldonkasera9@gmail.com',
-
-        phone:
-            '+254 727 515 329',
-
-        whatsapp:
-            'https://wa.me/254727515329',
-
-        github:
-            'https://github.com/ka-sera',
-
-        linkedin:
-            'https://www.linkedin.com/in/sheldon-kasera-99a557305'
-
-    };
-
-
-    // EMAIL
-
-    const emailElement =
-        document.getElementById('contactEmail');
-
-    if (emailElement) {
-
-        emailElement.textContent =
-            contactData.email;
-
-        emailElement.href =
-            `mailto:${contactData.email}`;
-    }
-
-
-    // PHONE → WHATSAPP
-
-    const phoneElement =
-        document.getElementById('contactPhone');
-
-    if (phoneElement) {
-
-        const whatsappLink =
-            document.createElement('a');
-
-        whatsappLink.id =
-            'contactPhone';
-
-        whatsappLink.href =
-            contactData.whatsapp;
-
-        whatsappLink.target =
-            '_blank';
-
-        whatsappLink.rel =
-            'noopener noreferrer';
-
-        whatsappLink.textContent =
-            contactData.phone;
-
-
-        phoneElement.replaceWith(
-            whatsappLink
-        );
-    }
-
-
-    // GITHUB
-
-    const githubLink =
-        document.getElementById('contactGithub');
-
-    if (githubLink) {
-
-        githubLink.href =
-            contactData.github;
-
-        githubLink.textContent =
-            'github.com/ka-sera';
-
-        githubLink.target =
-            '_blank';
-
-        githubLink.rel =
-            'noopener noreferrer';
-    }
-
-
-    // LINKEDIN
-
-    const linkedinLink =
-        document.getElementById('contactLinkedin');
-
-    if (linkedinLink) {
-
-        linkedinLink.href =
-            contactData.linkedin;
-
-        linkedinLink.textContent =
-            'LinkedIn Profile';
-
-        linkedinLink.target =
-            '_blank';
-
-        linkedinLink.rel =
-            'noopener noreferrer';
-    }
-}
-
-// ======================================================
-// SMOOTH SCROLLING
-// ======================================================
-
-document
-    .querySelectorAll('a[href^="#"]')
-    .forEach(anchor => {
-
-        anchor.addEventListener(
-            'click',
-            function (event) {
-
-                const targetId =
-                    this.getAttribute('href');
-
-                if (!targetId || targetId === '#') {
-                    return;
-                }
-
-                const target =
-                    document.querySelector(targetId);
-
-                if (target) {
-
-                    event.preventDefault();
-
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            }
-        );
-    });
-
-
-// ======================================================
-// FADE-IN SECTION ANIMATION
-// ======================================================
-
-const observerOptions = {
-
-    threshold: 0.1,
-
-    rootMargin:
-        '0px 0px -80px 0px'
-
-};
 
 
 const observer =
     new IntersectionObserver(
-        (entries) => {
+        entries => {
 
             entries.forEach(entry => {
 
                 if (entry.isIntersecting) {
 
-                    entry.target.style.opacity =
-                        '1';
-
-                    entry.target.style.transform =
-                        'translateY(0)';
+                    entry.target.classList.add(
+                        'visible'
+                    );
 
                     observer.unobserve(
                         entry.target
                     );
+
                 }
 
             });
 
         },
-        observerOptions
+        {
+            threshold: 0.08,
+            rootMargin: '0px 0px -60px 0px'
+        }
     );
 
 
-// Observe sections
+sections.forEach(section => {
 
-document
-    .querySelectorAll('section')
-    .forEach(section => {
+    section.classList.add(
+        'scroll-hidden'
+    );
 
-        section.style.opacity = '0';
+    observer.observe(section);
 
-        section.style.transform =
-            'translateY(20px)';
-
-        section.style.transition =
-            'opacity 0.6s ease, transform 0.6s ease';
-
-        observer.observe(section);
-    });
+});
 
 
-// ======================================================
+}
+
+// ============================================================
 // NAVBAR SCROLL EFFECT
-// ======================================================
+// ============================================================
+
+function setupNavbarScroll() {
+
 
 const navbar =
     document.querySelector('.navbar');
+
+
+if (!navbar) {
+    return;
+}
 
 
 window.addEventListener(
     'scroll',
     () => {
 
-        if (!navbar) {
-            return;
-        }
+        if (window.scrollY > 100) {
 
-        const scrollTop =
-            window.pageYOffset ||
-            document.documentElement.scrollTop;
-
-
-        if (scrollTop > 100) {
-
-            navbar.style.boxShadow =
-                '0 5px 30px rgba(0, 128, 128, 0.2)';
+            navbar.classList.add(
+                'navbar-scrolled'
+            );
 
         } else {
 
-            navbar.style.boxShadow =
-                '0 5px 20px rgba(0, 128, 128, 0.15)';
+            navbar.classList.remove(
+                'navbar-scrolled'
+            );
+
         }
 
+    },
+    {
+        passive: true
     }
 );
 
 
-// ======================================================
-// INITIALIZE WEBSITE
-// ======================================================
+}
 
-window.addEventListener(
-    'load',
-    () => {
+// ============================================================
+// CONTACT LINKS
+// ============================================================
 
-        loadProjects();
+function setupContactLinks() {
 
-        loadCertificates();
 
-        loadGallery();
+const whatsapp =
+    document.querySelector(
+        'a[href*="wa.me"]'
+    );
 
-        populateContactInfo();
 
-    }
+if (whatsapp) {
+
+    whatsapp.href =
+        'https://wa.me/254727515329';
+
+    whatsapp.target =
+        '_blank';
+
+    whatsapp.rel =
+        'noopener noreferrer';
+
+}
+
+
+const linkedin =
+    document.querySelector(
+        'a[href*="linkedin.com"]'
+    );
+
+
+if (linkedin) {
+
+    linkedin.href =
+        'https://www.linkedin.com/in/sheldon-kasera-99a557305';
+
+    linkedin.target =
+        '_blank';
+
+    linkedin.rel =
+        'noopener noreferrer';
+
+}
+
+
+}
+
+// ============================================================
+// INITIALIZE
+// ============================================================
+
+document.addEventListener(
+'DOMContentLoaded',
+() => {
+
+    loadProjects();
+
+    loadCertificates();
+
+    loadGallery();
+
+    setupScrollAnimations();
+
+    setupNavbarScroll();
+
+    setupContactLinks();
+
+}
+
+
 );
-
