@@ -178,211 +178,124 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // ============================================================
-    // CERTIFICATES
-    // ============================================================
+    // ===========================
+// LOAD CERTIFICATES
+// ===========================
+
+function loadCertificates() {
+    const certificatesGrid = document.getElementById('certificatesGrid');
+
+    if (!certificatesGrid) return;
+
+    certificatesGrid.innerHTML = '';
 
     const certificates = [
-
         {
-            name:
-                'Bunimation Whiteboard Animation Course - Buni Sanara Program',
-
-            image:
-                'images/bunimation_certificate.jpg'
+            name: 'Bunimation Whiteboard Animation Course - Buni Sanara Program',
+            image: 'images/bunimation_certificate.jpg'
         },
-
         {
-            name:
-                'ALX AI Career Essentials',
-
-            image:
-                'images/73-alx-aice-ai-career-essentials-certificate-sheldon-kasera.png'
+            name: 'ALX AI Career Essentials',
+            image: 'images/73-alx-aice-ai-career-essentials-certificate-sheldon-kasera.png'
         },
-
         {
-            name:
-                'Virtual Assistant Certificate',
-
-            image:
-                'images/72-virtual-assistant-certificate-sheldon-kasera.png'
+            name: 'Virtual Assistant Certificate',
+            image: 'images/72-virtual-assistant-certificate-sheldon-kasera.png'
         }
-
     ];
 
+    certificates.forEach((certificate) => {
 
-    function loadCertificates() {
+        const card = document.createElement('div');
+        card.className = 'certificate-card';
 
-        const certificatesGrid =
-            document.getElementById('certificatesGrid');
-
-        if (!certificatesGrid) {
-            return;
-        }
-
-        certificatesGrid.innerHTML = '';
-
-        certificates.forEach((certificate, index) => {
-
-            const card =
-                document.createElement('div');
-
-            card.className =
-                'certificate-card';
-
-            card.style.animationDelay =
-                `${index * 0.1}s`;
-
-            card.innerHTML = `
-
-                <button
-                    class="certificate-view"
-                    type="button"
-                    aria-label="View ${certificate.name} in larger size"
+        card.innerHTML = `
+            <div class="certificate-image">
+                <img
+                    src="${certificate.image}"
+                    alt="${certificate.name}"
+                    loading="lazy"
                 >
+            </div>
 
-                    <div class="certificate-image">
+            <div class="certificate-name">
+                ${certificate.name}
+            </div>
 
-                        <img
-                            src="${certificate.image}"
-                            alt="${certificate.name}"
-                            loading="lazy"
-                        >
+            <div class="certificate-view-hint">
+                Click to view larger
+            </div>
+        `;
 
-                    </div>
-
-                    <div class="certificate-name">
-                        ${certificate.name}
-                    </div>
-
-                    <div class="certificate-view-text">
-                        Click to enlarge
-                    </div>
-
-                </button>
-            `;
-
-            const button =
-                card.querySelector('.certificate-view');
-
-            button.addEventListener('click', () => {
-
-                openCertificate(
-                    certificate.image,
-                    certificate.name
-                );
-
-            });
-
-            certificatesGrid.appendChild(card);
-
+        card.addEventListener('click', function () {
+            showCertificate(certificate.image, certificate.name);
         });
 
-    }
+        certificatesGrid.appendChild(card);
+    });
+}
 
 
-    // ============================================================
-    // CERTIFICATE VIEWER
-    // ============================================================
+// ===========================
+// CERTIFICATE FULL-SCREEN VIEW
+// ===========================
 
-    function openCertificate(image, name) {
+function showCertificate(image, title) {
 
-        const modal =
-            document.getElementById('certificateModal');
+    const viewer = document.createElement('div');
 
-        const modalImage =
-            document.getElementById('certificateModalImage');
+    viewer.className = 'certificate-modal';
 
-        if (!modal || !modalImage) {
-            return;
+    viewer.innerHTML = `
+        <div class="certificate-modal-background"></div>
+
+        <div class="certificate-modal-content">
+
+            <button
+                type="button"
+                class="certificate-modal-close"
+                aria-label="Close certificate"
+            >
+                &times;
+            </button>
+
+            <img
+                src="${image}"
+                alt="${title}"
+                class="certificate-modal-image"
+            >
+
+            <h3 class="certificate-modal-title">
+                ${title}
+            </h3>
+
+        </div>
+    `;
+
+    document.body.appendChild(viewer);
+
+    // Close button
+    viewer.querySelector('.certificate-modal-close')
+        .addEventListener('click', function () {
+            viewer.remove();
+        });
+
+    // Close when clicking the dark background
+    viewer.querySelector('.certificate-modal-background')
+        .addEventListener('click', function () {
+            viewer.remove();
+        });
+
+    // Close with Escape
+    function closeWithEscape(event) {
+        if (event.key === 'Escape') {
+            viewer.remove();
+            document.removeEventListener('keydown', closeWithEscape);
         }
-
-        modalImage.src = image;
-        modalImage.alt = name;
-
-        modal.classList.add('active');
-
-        modal.setAttribute(
-            'aria-hidden',
-            'false'
-        );
-
-        document.body.style.overflow = 'hidden';
     }
 
-
-    function closeCertificate() {
-
-        const modal =
-            document.getElementById('certificateModal');
-
-        const modalImage =
-            document.getElementById('certificateModalImage');
-
-        if (!modal) {
-            return;
-        }
-
-        modal.classList.remove('active');
-
-        modal.setAttribute(
-            'aria-hidden',
-            'true'
-        );
-
-        if (modalImage) {
-            modalImage.src = '';
-        }
-
-        document.body.style.overflow = '';
-    }
-
-
-    const closeCertificateButton =
-        document.getElementById('closeCertificateModal');
-
-    if (closeCertificateButton) {
-
-        closeCertificateButton.addEventListener(
-            'click',
-            closeCertificate
-        );
-    }
-
-
-    const certificateModal =
-        document.getElementById('certificateModal');
-
-    if (certificateModal) {
-
-        certificateModal.addEventListener(
-            'click',
-            event => {
-
-                if (event.target === certificateModal) {
-                    closeCertificate();
-                }
-
-            }
-        );
-    }
-
-
-    document.addEventListener(
-        'keydown',
-        event => {
-
-            if (
-                event.key === 'Escape' &&
-                certificateModal &&
-                certificateModal.classList.contains('active')
-            ) {
-                closeCertificate();
-            }
-
-        }
-    );
-
+    document.addEventListener('keydown', closeWithEscape);
+}
 
     // ============================================================
     // GALLERY
