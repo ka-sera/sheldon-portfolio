@@ -245,9 +245,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="certificate-image-wrapper">
 
                         <img
-                            src="${certificate.image}"
+                            src="${encodeURI(certificate.image)}"
                             alt="${certificate.title}"
                             class="certificate-image"
+                            loading="lazy"
                         >
 
                     </div>
@@ -307,7 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!certificate || !modal) return;
 
-        modalImage.src = certificate.image;
+        modalImage.src = encodeURI(certificate.image);
         modalImage.alt = certificate.title;
 
         modalTitle.textContent =
@@ -331,7 +332,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.remove("modal-open");
 
         if (modalImage) {
-            modalImage.src = "";
+            modalImage.removeAttribute("src");
         }
 
     }
@@ -371,26 +372,26 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
 
     const galleryImages = [
-    "images/1697697028627 - Copy (2).jpg",
-    "images/1697697039529.jpg",
-    "images/1697697051478.jpg",
-    "images/1699455785274.jpg",
-    "images/1O1A1344 - Copy - Copy.jpg",
-    "images/DSC_7601 - Copy.JPG",
-    "images/IMG-20231118-WA0161 - Copy.jpg",
-    "images/IMG-20240330-WA0002.jpg",
-    "images/IMG-20240330-WA0006.jpg",
-    "images/IMG-20240330-WA0036.jpg",
-    "images/IMG-20240617-WA0061.jpg",
-    "images/IMG-20240617-WA0131.jpg",
-    "images/IMG-20240724-WA0031.jpg",
-    "images/IMG-20240724-WA0033.jpg",
-    "images/IMG-20240724-WA0043.jpg",
-    "images/IMG-20240928-WA0060.jpg",
-    "images/IMG-20250120-WA0027.jpg",
-    "images/IMG-20250209-WA0128.jpg",
-    "images/_JAK0094 - Copy - Copy.jpg"
-];
+        "images/1697697028627 - Copy (2).jpg",
+        "images/1697697039529.jpg",
+        "images/1697697051478.jpg",
+        "images/1699455785274.jpg",
+        "images/1O1A1344 - Copy - Copy.jpg",
+        "images/DSC_7601 - Copy.JPG",
+        "images/IMG-20231118-WA0161 - Copy.jpg",
+        "images/IMG-20240330-WA0002.jpg",
+        "images/IMG-20240330-WA0006.jpg",
+        "images/IMG-20240330-WA0036.jpg",
+        "images/IMG-20240617-WA0061.jpg",
+        "images/IMG-20240617-WA0131.jpg",
+        "images/IMG-20240724-WA0031.jpg",
+        "images/IMG-20240724-WA0033.jpg",
+        "images/IMG-20240724-WA0043.jpg",
+        "images/IMG-20240928-WA0060.jpg",
+        "images/IMG-20250120-WA0027.jpg",
+        "images/IMG-20250209-WA0128.jpg",
+        "images/_JAK0094 - Copy - Copy.jpg"
+    ];
 
 
     // ==========================================
@@ -413,7 +414,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             item.innerHTML = `
                 <img
-                    src="${image}"
+                    src="${encodeURI(image)}"
                     alt="Sheldon Kasera portfolio gallery image ${index + 1}"
                     loading="lazy"
                 >
